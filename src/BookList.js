@@ -6,26 +6,24 @@ import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 
-class ListShelves extends React.Component {
+class BookList extends React.Component {
 	static propTypes = {
 		books: PropTypes.array.isRequired
 	}
 
 	state = {
-		books: []
+		books: [],
+		shelves: {}
 	}
 
-	handleChange(book, event) {
-		console.log('handle')
-		if(event) {
-			BooksAPI.update(book, event.target.value)
+	updateShelf = (book, shelf) => {
+		BooksAPI.update(book, shelf)
+		this.setState({shelves:})
+		console.log('updateShelf')
+	}
 
-			BooksAPI.getAll().then((books) => {
-				this.setState({books})
-			})
-
-		}
-
+	updateShelves = (book, shelf) => {
+		BooksAPI.update(book, shelf)
 	}
 
 	render() {
@@ -49,8 +47,6 @@ class ListShelves extends React.Component {
 								{/* Filter through showingBooks and filter only those that match book shelf title */}
 								<ListBooks
 									bookList={showingBooks.filter((book) => (book.shelf === title))}
-									handleChange={this.handleChange}
-									books={this.state.books} 
 								/>
 							</div>
 						</div>
@@ -64,4 +60,4 @@ class ListShelves extends React.Component {
 	)}
 }
 
-export default ListShelves
+export default BookList

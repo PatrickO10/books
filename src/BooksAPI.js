@@ -12,6 +12,13 @@ const headers = {
   'Authorization': token
 }
 
+// Create an object to display shelf titles and to filter books accoring to shelf.title
+export const shelfTitles = () => ({
+  'currentlyReading': 'Currently Reading',
+  'wantToRead': 'Want to Read',
+  'read': 'Read'
+})
+
 export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, { headers })
     .then(res => res.json())
