@@ -6,34 +6,15 @@ import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 
+// Lists the shelves and iterates through the shelves object
 class ListShelves extends React.Component {
 	static propTypes = {
 		books: PropTypes.array.isRequired
 	}
 
-	state = {
-		books: []
-	}
-
-	handleChange(book, event) {
-		console.log('handle')
-		if(event) {
-			BooksAPI.update(book, event.target.value)
-
-			BooksAPI.getAll().then((books) => {
-				this.setState({books})
-			})
-
-		}
-
-	}
-
 	render() {
-		const { books, shelves } = this.props
-		
-		this.state.books = books
-		let shelfTitles = shelves
-		let showingBooks = this.state.books
+		let shelfTitles = this.props.shelves
+		let showingBooks = this.props.books
 
 		return (
 			<div className="list-books">
@@ -49,8 +30,7 @@ class ListShelves extends React.Component {
 								{/* Filter through showingBooks and filter only those that match book shelf title */}
 								<ListBooks
 									bookList={showingBooks.filter((book) => (book.shelf === title))}
-									handleChange={this.handleChange}
-									books={this.state.books} 
+									handleChange={ this.props.handleChange }
 								/>
 							</div>
 						</div>

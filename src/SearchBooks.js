@@ -5,6 +5,7 @@ import ListBooks from './ListBooks.js'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 
+// Searches for books 
 class SearchBooks extends React.Component {
 	state = {
 		books: []
@@ -33,7 +34,10 @@ class SearchBooks extends React.Component {
 					</div>
 				</div>
 				<div className="search-books-results">
-					<ListBooks bookList = {searchingBooks} />
+					<ListBooks 
+						bookList = {searchingBooks}
+						handleChange={this.props.handleChange}
+					/>
 				</div>
 			</div>
 		)

@@ -8,15 +8,26 @@ import './App.css'
 class BooksApp extends React.Component {
   state = {
     books: [],
-    shelves: {}
+    shelves: {
+      'currentlyReading': 'Currently Reading',
+      'wantToRead': 'Want to Read',
+      'read': 'Read'
+    }
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
+  }
 
-    this.setState({shelves: BooksAPI.shelfTitles()})
+
+  handleChange = (book, event) => {
+    BooksAPI.update(book, event.target.value).then(() => {
+      BooksAPI.getAll().then((books) => {
+        this.setState({ books })
+      })
+    })
   }
 
   render() {
@@ -26,12 +37,14 @@ class BooksApp extends React.Component {
             <ListShelves 
               books={this.state.books}
               shelves={this.state.shelves}
+              handleChange={this.handleChange}
             /> 
           )} 
         />
         <Route path='/search' render={({ history }) => (
             <SearchBooks
               books={this.state.books}
+              handleChange={this.handleChange}
             />
           )}
         />
