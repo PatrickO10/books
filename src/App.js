@@ -7,12 +7,13 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
-    shelves: {
-      'currentlyReading': 'Currently Reading',
-      'wantToRead': 'Want to Read',
-      'read': 'Read'
-    }
+    books: []
+  }
+
+  shelves =  {
+    'currentlyReading': 'Currently Reading',
+    'wantToRead': 'Want to Read',
+    'read': 'Read'
   }
 
   componentDidMount() {
@@ -21,12 +22,13 @@ class BooksApp extends React.Component {
     })
   }
 
-
   handleChange = (book, event) => {
-    BooksAPI.update(book, event.target.value).then(() => {
-      BooksAPI.getAll().then((books) => {
-        this.setState({ books })
-      })
+    let shelf = event.target.value
+    BooksAPI.update(book, shelf).then(() => {
+      book.shelf = shelf
+      this.setState((state) => ({
+        books: state.books.filter(bookEl => bookEl.id !== book.id).concat([book])
+      }))
     })
   }
 
@@ -36,7 +38,7 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
             <ListShelves 
               books={this.state.books}
-              shelves={this.state.shelves}
+              shelves={this.shelves}
               handleChange={this.handleChange}
             /> 
           )} 

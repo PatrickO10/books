@@ -4,9 +4,6 @@ import ListShelves from './ListShelves.js'
 
 // List books and iterates through the book list
 class ListBooks extends React.Component {
-	state = {
-		shelf: 'moveTo'
-	}
 
 	render() {
 
@@ -19,7 +16,7 @@ class ListBooks extends React.Component {
 						<div className="book-top">
 							<div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
 							<div className="book-shelf-changer">
-								<select value={this.state.shelf} onChange={(event) => this.props.handleChange(book, event)}>
+								<select value={book.shelf} onChange={(event) => this.props.handleChange(book, event)}>
 									<option value="moveTo" disabled>Move to...</option>
 									<option value="currentlyReading">Currently Reading</option>
 									<option value="wantToRead">Want to Read</option>
