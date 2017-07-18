@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks.js'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
 
 // Searches for books 
 class SearchBooks extends React.Component {
@@ -12,17 +10,37 @@ class SearchBooks extends React.Component {
 	}
 
 	handleInput = (e) => {
+		const MAX_RESULTS = 10
+		const booksProp = this.props.books
+		let query = e.target.value
+		let newBookList
+		let booksObj = {}
+		booksProp.forEach((book) => {
+			booksObj[book.id] = book
+		})
 
-		if (e) {
-			BooksAPI.search(e.target.value, 10).then( (books) => {
-				this.setState({books})
+		if (query !== '') {
+			BooksAPI.search(query, MAX_RESULTS).then( (books) => {
+
+				// Make a new array with correct state of shelves.
+				// use .map() to loop through each book in result and
+				// make sure it has the correct state of shelves.
+				newBookList = books.map((book) => {
+					// If book.id is in books object then return the book from the books object
+					// else change shelf to none and return the book from the books array.
+					if(book.id in booksObj) {
+						return booksObj[book.id]
+					} else {
+						book.shelf = 'none'
+						return book
+					}
+				})
+				this.setState({books: newBookList})
 			})
 		}
 	}
 
 	render() {
-		const { books } = this.props
-
 		let searchingBooks = this.state.books
 
 		return (
@@ -35,7 +53,7 @@ class SearchBooks extends React.Component {
 				</div>
 				<div className="search-books-results">
 					<ListBooks 
-						bookList = {searchingBooks}
+						bookList={searchingBooks}
 						handleChange={this.props.handleChange}
 					/>
 				</div>

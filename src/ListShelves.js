@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks.js'
 import PropTypes from 'prop-types'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
 
 // Lists the shelves and iterates through the shelves object
 class ListShelves extends React.Component {
